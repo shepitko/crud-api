@@ -1,11 +1,11 @@
 import { Server, createServer, IncomingMessage, ServerResponse } from 'http'
 import { EventEmitter } from 'events';
 
-import { InMemoryDatabase } from './core/InMemoryDatabase';
 import { Router } from './core/Routes';
-import { UserController } from './api/users/users-controller';
+import { UserController } from './api/users/UserController';
 import { getRouteMask } from './helpers/getRouteMask';
 import { parseJson } from './helpers/parseJson';
+import { parseUrl } from './helpers/parseUrl';
 
 // enpoint = {
 //   '/users': {
@@ -14,11 +14,10 @@ import { parseJson } from './helpers/parseJson';
 // }
 
 export class App {
-	db: InMemoryDatabase;
+	port: number | string;
 	router: Router;
 	server: Server;
 	emitter: EventEmitter;
-	port: number | string;
 	middlewares: any[];
 
 	constructor() {
@@ -37,7 +36,7 @@ export class App {
 		this.useRoutes();
 		
 		this.use(parseJson);
-		// this.use(parseUrl('http://localhost:6677'));
+		this.use(parseUrl(process.env.BASE_URL || ''));
 
 		this.server.listen(this.port, () => {
 			console.info(`Server was started on PORT: ${process.env.PORT}`);

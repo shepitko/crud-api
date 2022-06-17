@@ -1,46 +1,49 @@
-
+import { v4 as newUuid } from 'uuid';
 
 export class InMemoryDatabase {
-	entities: any;
+	protected db: any;
+	protected entities: any;
 	type: string;
 
 	constructor() {
-		this.entities = {};
+		this.db = {};
 	}
 
 	workWith(entityType: string) {
 		this.type = entityType;
-		this.entities[entityType] = [];
+		this.db[entityType] = [];
+		this.entities = this.db[entityType];
 
 		return this;
 	} 
 
 	all() {
-		return this._entities();
+		return this.entities;
 	}
 
-	findById(id: string) {
-		return this._entities().find(id);
+	findById(id: string | number) {
+		return this.entities.find((ent: {id: string}) => ent.id === id);
 	}
 
 	create(params: any)  {
-		const entities = this._entities();
-		entities.push(params);
+		const newEntity = { id: newUuid(), ...params };
 
-		this._entities = entities;
+		this.entities.push(newEntity);
 
-		return params;
+		return this.entities[this.entities.length - 1];
 	}
 	
 	update(params: any)  {
-		return this._entities().push(params);
+		return this.entities = this.entities.map((item: any) => {
+			if(item.id === params.id) return params;
+
+			return item;
+		});
 	}
 
-	delete(id: string): null  {
-		return this._entities().filter((ent: any) => ent.id !== id);
-	}
+	delete(id: string | number): null  {
+		this.entities = this.entities.filter((ent: { id: string }) => ent.id !== id);
 
-	private _entities() {
-		return this.entities[this.type];
+		return null;
 	}
 }

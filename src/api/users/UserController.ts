@@ -1,8 +1,5 @@
-
-import { IncomingMessage } from 'http';
-import { InMemoryDatabase } from '../../core/InMemoryDatabase';
 import UserModel from '../../models/User';
-import { ServerResponse } from '../../types/main-types';
+import { ServerResponse, IncomingMessage } from '../../types/OverrideHttp.t';
 
 export class UserController {
 	user: UserModel;
@@ -24,39 +21,38 @@ export class UserController {
 	getUsers =  async (request: IncomingMessage, response: ServerResponse) => {
 		const users = this.user.methods.all();
 
+		response.setStatusCode(200);
 		response.send(users);
 	}
 
 	
 	getUserById = async (request: IncomingMessage, response: ServerResponse) => {
-		const id = 'test'
-		const users = this.user.methods.findById(id);;
+		const user = this.user.methods.findById(request.params.id);
 
-		response.send(users);
+		response.setStatusCode(200);
+		response.send(user);
 	}
 
 	
 	createUser = (request: IncomingMessage, response: ServerResponse) => {
-    	const user = this.user.methods.create({ name: 'yurii' })
-    	response.end(user, 'utf-8');
+    	const user = this.user.methods.create(request.params)
 
+		response.setStatusCode(201);
 		response.send(user);
 	}
 
 	
 	updateUser = (request: IncomingMessage, response: ServerResponse) => {
-		const user = this.user.methods.update({ name: 'yurii' })
-    	response.end(user, 'utf-8');
+		const user = this.user.methods.update(request.params)
 
+		response.setStatusCode(201);
 		response.send(user);
 	}
 	
 	deleteUser = (request: IncomingMessage, response: ServerResponse) => {
-		const user = this.user.methods.update({ name: 'yurii' })
+		const user = this.user.methods.delete(request.params.id)
     	response.end(user, 'utf-8');
 
 		response.send(user);
 	}
-
-
 }

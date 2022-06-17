@@ -1,4 +1,8 @@
 export const getRouteMask = (method: string | undefined, path: string | undefined) => {
-	console.log( `[${method}]:[${path}]`);
+	const slashes = path?.split('/') || [];
+
+	// For single entities
+	if(slashes.length > 1)  return `[${method}]:[/${slashes[1]}/:id]`;
+	
 	return `[${method}]:[${path}]`;
 }

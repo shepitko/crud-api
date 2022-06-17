@@ -1,4 +1,6 @@
 export interface User {
 	id?: string, // uuid
-	name: string
+	name: string,
+	age: number,
+	hobbies: string[],
 }
