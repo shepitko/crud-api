@@ -8,4 +8,9 @@ export class UserDB extends InMemoryDatabase {
 
 		this.methods = this.workWith('users');
 	}
+
+	clearData(): void {
+		this.clearEntitiesData('users');
+	}
+
 }

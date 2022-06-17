@@ -6,6 +6,7 @@ import { UserController } from './api/users/UserController';
 import { getRouteMask } from './helpers/getRouteMask';
 import { parseJson } from './helpers/parseJson';
 import { parseUrl } from './helpers/parseUrl';
+import UserModel from './models/User';
 
 // enpoint = {
 //   '/users': {
@@ -13,26 +14,40 @@ import { parseUrl } from './helpers/parseUrl';
 //    }
 // }
 
+declare module 'http' {
+    interface IncomingMessage {
+        body: any;
+    }
+}
+
 export class App {
 	port: number | string;
-	router: Router;
 	server: Server;
 	emitter: EventEmitter;
+
 	middlewares: any[];
+	controllers: any[];
+	models: any[];
 
 	constructor() {
-		this.emitter = new EventEmitter();
 		this.port = process.env.PORT || 6677;
 		this.server = this._createServer();
-		this.router = new Router({ emitter: this.emitter });
+		this.emitter = new EventEmitter();
+
+		const router = new Router({ emitter: this.emitter });
+		const userModel = new UserModel();
+		const userController = new UserController(router, userModel)
+
 		this.middlewares = [];
+		this.controllers = [userController];
+		this.models = [userModel];
 	}
 
-    useRoutes() {;
-		new UserController(this.router).routes();
+    public clearAllData() {;
+		this.models.forEach((model:any) => model.clearData());
     }
 
-	init() {
+	public init() {
 		this.useRoutes();
 		
 		this.use(parseJson);
@@ -42,8 +57,21 @@ export class App {
 			console.info(`Server was started on PORT: ${process.env.PORT}`);
 		});
 	}
-	
- 	use(middleware: any) {
+
+	public resetData(): void {
+		
+	}
+
+	public close(): void {
+		this.server.close();
+	}
+
+
+    private useRoutes() {;
+		this.controllers.forEach((controller:any) => controller.routes());
+    }
+
+ 	private use(middleware: any) {
         this.middlewares.push(middleware);
     }
 
@@ -57,13 +85,14 @@ export class App {
 
             request.on('end', () => {
 				try{
-                if(body.length) {
-                    body = Buffer.concat(body).toString();
-					console.log('1', body)
-                }
+					if(body.length) {
+						request.body = JSON.parse(Buffer.concat(body).toString());
+					}
+
 					this.middlewares.forEach(middleware => middleware(request, response))
 
 					const emitted = this.emitter.emit(getRouteMask(request.method, request.url), request, response)
+					
 					if (!emitted) {
 						response.end()
                 	}

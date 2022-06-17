@@ -1,3 +1,4 @@
+import { Router } from '../../core/Routes';
 import UserModel from '../../models/User';
 import { ServerResponse, IncomingMessage } from '../../types/OverrideHttp.t';
 
@@ -5,8 +6,8 @@ export class UserController {
 	user: UserModel;
 	router: any;
 
-	constructor(router: any) {
-		this.user = new UserModel();
+	constructor(router: Router, model: UserModel) {
+		this.user = model;
 		this.router = router;
 	}
 
@@ -35,7 +36,7 @@ export class UserController {
 
 	
 	createUser = (request: IncomingMessage, response: ServerResponse) => {
-    	const user = this.user.methods.create(request.params)
+    	const user = this.user.methods.create(request.body);
 
 		response.setStatusCode(201);
 		response.send(user);
