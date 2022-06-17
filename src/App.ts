@@ -58,14 +58,9 @@ export class App {
 		});
 	}
 
-	public resetData(): void {
-		
-	}
-
 	public close(): void {
 		this.server.close();
 	}
-
 
     private useRoutes() {;
 		this.controllers.forEach((controller:any) => controller.routes());
