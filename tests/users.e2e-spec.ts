@@ -40,6 +40,34 @@ describe('GET api/users', () => {
 	});
 });
 
+describe('GET api/users/:id', () => {
+	it.todo('get user by id');
+
+	it.todo('user doesn`t found');
+});
+
+
+describe('POST api/users', () => {
+	it.todo('create new user');
+
+	it.todo('create new user with wrong params');
+});
+
+describe('PUT api/users/:id', () => {
+	it.todo('update existed user');
+	
+	it.todo('update non-existed user');
+	
+	it.todo('update existed user with wrong params');
+});
+
+
+describe('DELETE api/users/:id', () => {
+	it.todo('delete existed user');
+	
+	it.todo('delete non-existed user');
+});
+
 afterAll(() => {
 	application.close();
 });
