@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { App } from './app';
+import { App } from './App';
 
 interface IBootstrapReturn {
 	app: App;

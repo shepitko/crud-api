@@ -1,5 +1,5 @@
 import { boot } from '../src/main';
-import { App } from '../src/app';
+import { App } from '../src/App';
 import request from 'supertest';
 import { IUser } from '../src/types/User.t';
 
