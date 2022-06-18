@@ -1,3 +1,5 @@
 import { boot } from './src/main';
 
-boot({ scale: true });
+// I'm using NODE_ENV because it's croslatform variables;
+const scale = process.env.NODE_ENV || false;
+boot({ scale: Boolean(scale) });

@@ -8,6 +8,7 @@
     "build": "tsc",
     "start:dev": "nodemon",
     "start:dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:6667 -r ts-node/register index.ts",
+    "start:multi": "NODE_ENV=true nodemon",
     "start:prod": "npm run build && node ./dist/index.js",
     "lint": "eslint ./src/**",
     "test:e2e": "jest --config jest.e2e.config.ts"

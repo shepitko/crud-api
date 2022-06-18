@@ -1,5 +1,5 @@
 ## Simple CRUD API without frameworks
-Implemented base architecture/simple framework, users endpoint and test for it. Web server scaling on all CPU cores
+Implemented base architecture/simple framework, users endpoint and test for it. Web server can scaling on all CPU cores
 
 ### How to start
 - node version must be 16 LTS
@@ -7,8 +7,9 @@ Implemented base architecture/simple framework, users endpoint and test for it. 
 
 ### Commands
 - `npm run start:dev` - start dev server
-- `npm run start:dev:inspect` - start dev server in debug mode, *work only in scale mode - false*
+- `npm run start:dev:inspect` - start dev server in debug mode
 - `npm run start:prod` - start production build
+- `npm run start:multi` - start multi-server which scale to all CPU's cores
 - `npm run lint` - check and show all eslint issues
 - `npm run test:e2e` - run e2e tests(api)
 
