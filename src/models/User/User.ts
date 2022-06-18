@@ -1,4 +1,4 @@
-import { InMemoryDatabase } from '../core/InMemoryDatabase';
+import { InMemoryDatabase } from '../../core/InMemoryDatabase';
 
 export default class UserModel extends InMemoryDatabase {
 	methods: InMemoryDatabase;

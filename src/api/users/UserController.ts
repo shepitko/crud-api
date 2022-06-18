@@ -1,11 +1,11 @@
 import { validate as validateUuid } from 'uuid';
 import { Router } from '../../core/Routes';
-import UserModel from '../../models/User';
+import UserModel from '../../models/User/User';
 import { ServerResponse, IncomingMessage } from '../../types/OverrideHttp.t';
 
 export class UserController {
 	user: UserModel;
-	router: any;
+	router: Router;
 
 	constructor(router: Router, model: UserModel) {
 		this.user = model;

@@ -6,7 +6,7 @@ import { UserController } from './api/users/UserController';
 import { getRouteMask } from './helpers/getRouteMask';
 import { parseJson } from './core/middlewares/parseJson';
 import { parseUrl } from './core/middlewares/parseUrl';
-import UserModel from './models/User';
+import UserModel from './models/User/User';
 
 // enpoint = {
 //   '/users': {
