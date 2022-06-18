@@ -1,5 +1,5 @@
 import { ServerResponse } from 'http';
-import { IncomingMessage } from '../types/OverrideHttp.t';
+import { IncomingMessage } from '../../types/OverrideHttp.t';
 
 export const parseUrl =
 	(baseUrl: string) =>

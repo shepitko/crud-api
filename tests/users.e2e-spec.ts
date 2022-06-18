@@ -6,7 +6,7 @@ import { IUser } from '../src/types/User.t';
 let application: App;
 
 beforeAll(async () => {
-	const { app } = boot;
+	const { app } = boot({ scale: false });
 	application = app;
 });
 

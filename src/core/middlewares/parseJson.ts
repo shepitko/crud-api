@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'http';
-import { ServerResponse } from '../types/OverrideHttp.t';
+import { ServerResponse } from '../../types/OverrideHttp.t';
 
 export const parseJson = (request: IncomingMessage, response: ServerResponse): void => {
 	response.setStatusCode = (code: number): void => {

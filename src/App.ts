@@ -4,8 +4,8 @@ import { EventEmitter } from 'events';
 import { Router } from './core/Routes';
 import { UserController } from './api/users/UserController';
 import { getRouteMask } from './helpers/getRouteMask';
-import { parseJson } from './helpers/parseJson';
-import { parseUrl } from './helpers/parseUrl';
+import { parseJson } from './core/middlewares/parseJson';
+import { parseUrl } from './core/middlewares/parseUrl';
 import UserModel from './models/User';
 
 // enpoint = {
