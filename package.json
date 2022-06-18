@@ -2,14 +2,15 @@
   "name": "crud-api",
   "version": "0.0.1",
   "description": "Simple Crud API without frameworks",
-  "main": "index.ts",
+  "main": "src/main.js",
+	"type": "commonjs",
   "scripts": {
-    "dev": "nodemon",
-    "dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:6667 -r ts-node/register src/main.ts",
-    "start": "node ./dist/index.js",
+    "build": "tsc",
+    "start:dev": "nodemon",
+    "start:dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:6667 -r ts-node/register src/main.ts",
+    "start:prod": "npm run build && node ./dist/src/main.js",
     "lint": "eslint ./src/**",
-    "test:e2e": "jest --config jest.e2e.config.ts",
-    "build": "tsc"
+    "test:e2e": "jest --config jest.e2e.config.ts"
   },
   "keywords": [
     "api"
