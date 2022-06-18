@@ -1,4 +1,4 @@
-import { Server, createServer, IncomingMessage, ServerResponse } from 'http'
+import { Server, createServer, IncomingMessage, ServerResponse } from 'http';
 import { EventEmitter } from 'events';
 
 import { Router } from './core/Routes';
@@ -15,9 +15,13 @@ import UserModel from './models/User';
 // }
 
 declare module 'http' {
-    interface IncomingMessage {
-        body: any;
-    }
+	interface IncomingMessage {
+		body: any;
+	}
+	interface ServerResponse {
+		setStatusCode: (code: number) => void;
+		send: (data: any) => void;
+	}
 }
 
 export class App {
@@ -36,20 +40,20 @@ export class App {
 
 		const router = new Router({ emitter: this.emitter });
 		const userModel = new UserModel();
-		const userController = new UserController(router, userModel)
+		const userController = new UserController(router, userModel);
 
 		this.middlewares = [];
 		this.controllers = [userController];
 		this.models = [userModel];
 	}
 
-    public clearAllData() {;
-		this.models.forEach((model:any) => model.clearData());
-    }
+	public clearAllData(): void {
+		this.models.forEach((model: any) => model.clearData());
+	}
 
-	public init() {
+	public init(): void {
 		this.useRoutes();
-		
+
 		this.use(parseJson);
 		this.use(parseUrl(process.env.BASE_URL || ''));
 
@@ -62,40 +66,46 @@ export class App {
 		this.server.close();
 	}
 
-    private useRoutes() {;
-		this.controllers.forEach((controller:any) => controller.routes());
-    }
+	private useRoutes(): void {
+		this.controllers.forEach((controller: any) => controller.routes());
+	}
 
- 	private use(middleware: any) {
-        this.middlewares.push(middleware);
-    }
+	private use(middleware: any): void {
+		this.middlewares.push(middleware);
+	}
 
-	private _createServer() {
+	private _createServer(): Server {
 		return createServer((request: IncomingMessage, response: ServerResponse) => {
-			let body: any = [];
+			const body: any = [];
 
-            request.on('data', (chunk) => {
-               body.push(chunk);
-            })
+			request.on('data', (chunk) => {
+				body.push(chunk);
+			});
 
-            request.on('end', () => {
-				try{
-					if(body.length) {
+			request.on('end', () => {
+				try {
+					if (body.length) {
 						request.body = JSON.parse(Buffer.concat(body).toString());
 					}
 
-					this.middlewares.forEach(middleware => middleware(request, response))
+					this.middlewares.forEach((middleware) => middleware(request, response));
 
-					const emitted = this.emitter.emit(getRouteMask(request.method, request.url), request, response)
-					
+					const emitted = this.emitter.emit(getRouteMask(request.method, request.url), request, response);
+
 					if (!emitted) {
-						response.end()
-                	}
-				
+						response.setStatusCode(404);
+						response.send({ message: 'This enpoint doesn`t exist.' });
+					}
 				} catch (e: any) {
-					console.error(e.message);
+					if ([400, 401, 404].includes(e.errorCode)) {
+						response.setStatusCode(e.errorCode);
+						response.send({ message: e.message });
+					} else {
+						response.setStatusCode(500);
+						response.send({ message: 'Server Error: something went wrong' });
+					}
 				}
-            })
-		})
-	}  
+			});
+		});
+	}
 }

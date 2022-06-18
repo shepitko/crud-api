@@ -1,11 +1,11 @@
 import 'dotenv/config';
-import { App } from './src/App';
+import { App } from './app';
 
 interface IBootstrapReturn {
 	app: App;
 }
 
-function bootstrap (): IBootstrapReturn {
+function bootstrap(): IBootstrapReturn {
 	const app = new App();
 
 	app.init();

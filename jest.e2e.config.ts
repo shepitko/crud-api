@@ -5,6 +5,6 @@ const config: Config.InitialOptions = {
 	preset: 'ts-jest',
 	rootDir: './tests',
 	testRegex: '.e2e-spec.ts',
-}
+};
 
 export default config;

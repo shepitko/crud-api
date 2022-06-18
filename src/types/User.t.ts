@@ -1,6 +1,6 @@
 export interface IUser {
-	id?: string, // uuid
-	name: string,
-	age: number,
-	hobbies: string[],
+	id?: string; // uuid
+	username: string;
+	age: number;
+	hobbies: string[];
 }
