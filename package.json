@@ -1,0 +1,43 @@
+{
+  "name": "crud-api",
+  "version": "0.0.1",
+  "description": "Simple Crud API without frameworks",
+  "main": "index.js",
+	"type": "commonjs",
+  "scripts": {
+    "build": "tsc",
+    "start:dev": "nodemon",
+    "start:dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:6667 -r ts-node/register index.ts",
+    "start:multi": "NODE_ENV=true nodemon",
+    "start:prod": "npm run build && node ./dist/index.js",
+    "lint": "eslint ./src/**",
+    "test:e2e": "jest --config jest.e2e.config.ts"
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "Yurii Shepitko",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^28.1.2",
+    "@types/node": "^16.11.41",
+    "@types/supertest": "^2.0.12",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^28.1.1",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.7.1",
+    "supertest": "^6.2.3",
+    "ts-jest": "^28.0.5",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "uuid": "^8.3.2"
+  }
+}
